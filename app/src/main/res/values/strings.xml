@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TimelinePictureAndroidApp</string>
+    <string name="app_photo">Take a Photo</string>
 </resources>

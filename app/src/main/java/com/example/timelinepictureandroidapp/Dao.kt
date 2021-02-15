@@ -7,6 +7,6 @@ import androidx.room.Query
 @Dao
 interface PlaceDao {
         @Query("SELECT * FROM place")
-        fun getAll(): LiveData<List<Place>>
+        fun getAll(): List<Place>
         //TODO more Querys and pictureDao
     }
