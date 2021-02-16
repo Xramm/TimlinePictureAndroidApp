@@ -15,10 +15,15 @@ data class Place(
     val longitude: Long,
 )
 
-@Entity
+@Entity(foreignKeys = [(ForeignKey(entity = Place::class,
+ parentColumns = ["placeId"],
+ childColumns = ["picId"],
+ onDelete = CASCADE))])
 data class Pictures(
     @PrimaryKey
     val picId: Long,
+    @PrimaryKey
+    val name: String,
     val thumpNail: Bitmap,
     val pictureUri: URI,
     val heading: String,
@@ -31,5 +36,6 @@ data class PlaceWithPictures (
         parentColumn = "placeId",
         entityColumn = "picId"
     )
-    val pictures:List<Pictures>? = null
+    val pictures: List<Pictures>? = null
         )
+
