@@ -12,3 +12,6 @@ interface PlaceDao {
         @Query("SELECT * FROM place WHERE place.placeId = :picId")
         fun getPlaceWithPictures(picId: Long): PlaceWithPictures
     }
+
+@Dao
+interface PicturesDao {}

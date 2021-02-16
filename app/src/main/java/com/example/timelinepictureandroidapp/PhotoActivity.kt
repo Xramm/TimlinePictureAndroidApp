@@ -35,8 +35,10 @@ class PhotoActivity : AppCompatActivity() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         fusedLocationClient.lastLocation.addOnCompleteListener(this){
             task -> if (task.isSuccessful && task.result != null) {
-                Log.d("AAA", " latitude:  ${task.result.latitude}" +
-                        "and longitude: ${task.result.longitude}")
+               tvLat.text = task.result.latitude.toString()
+            tvLong.text = task.result.longitude.toString()
+           // TODO go trough dao and get if user have this position in database
+
         }
         }
 
