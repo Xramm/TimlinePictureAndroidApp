@@ -1,6 +1,7 @@
 package com.example.timelinepictureandroidapp.db
 
 import android.graphics.Bitmap
+import android.net.Uri
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -12,12 +13,11 @@ import java.net.URI
         childColumns = ["picId"],
         onDelete = ForeignKey.CASCADE))])
 data class Pictures(
-        @PrimaryKey
         val picId: Long,
+        val thumpNail: String,
+        val pictureUri: String,
+        val heading: String,
+        val timeStamp: Long,
         @PrimaryKey
         val name: String,
-        val thumpNail: Bitmap,
-        val pictureUri: URI,
-        val heading: String,
-        val timeStamp: Long
 )

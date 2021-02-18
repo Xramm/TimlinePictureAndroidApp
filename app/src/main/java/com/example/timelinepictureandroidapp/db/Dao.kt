@@ -22,10 +22,10 @@ interface PlaceDao {
 
 @Dao
 interface PicturesDao {
-  /*  @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(place: Pictures): Long
 
     @Delete
-    fun delete(place: Pictures)*/
+    fun delete(place: Pictures)
 
 }
