@@ -15,27 +15,4 @@ data class Place(
     val longitude: Long,
 )
 
-@Entity(foreignKeys = [(ForeignKey(entity = Place::class,
- parentColumns = ["placeId"],
- childColumns = ["picId"],
- onDelete = CASCADE))])
-data class Pictures(
-    @PrimaryKey
-    val picId: Long,
-    @PrimaryKey
-    val name: String,
-    val thumpNail: Bitmap,
-    val pictureUri: URI,
-    val heading: String,
-    val timeStamp: Long
-)
-
-data class PlaceWithPictures (
-    @Embedded val place: Place,
-    @Relation(
-        parentColumn = "placeId",
-        entityColumn = "picId"
-    )
-    val pictures: List<Pictures>? = null
-        )
 
