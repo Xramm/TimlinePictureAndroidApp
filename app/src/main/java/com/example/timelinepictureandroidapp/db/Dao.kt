@@ -2,6 +2,8 @@ package com.example.timelinepictureandroidapp
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.timelinepictureandroidapp.db.Pictures
+import com.example.timelinepictureandroidapp.db.PlaceWithPictures
 
 @Dao
 interface PlaceDao {
@@ -20,10 +22,10 @@ interface PlaceDao {
 
 @Dao
 interface PicturesDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+  /*  @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(place: Pictures): Long
 
     @Delete
-    fun delete(place: Pictures)
+    fun delete(place: Pictures)*/
 
 }
