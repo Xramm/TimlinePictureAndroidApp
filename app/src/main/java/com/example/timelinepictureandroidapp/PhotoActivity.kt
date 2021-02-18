@@ -1,9 +1,12 @@
 package com.example.timelinepictureandroidapp
 
 import android.Manifest
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.location.Location
 import android.net.Uri
 import android.os.Build
@@ -17,6 +20,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.karumi.dexter.Dexter
@@ -28,6 +32,7 @@ import kotlinx.android.synthetic.main.activity_photo.*
 
 class PhotoActivity : AppCompatActivity() {
     private val LOCATION_PERMISSION_REQUEST = 1
+    private  val REQUEST_IMAGE_CAPTURE = 99
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
@@ -53,6 +58,7 @@ class PhotoActivity : AppCompatActivity() {
         }
         }
 
+        btnPhoto.setOnClickListener { takePhoto() }
 
     }
     private fun takePhoto(){
@@ -64,7 +70,8 @@ class PhotoActivity : AppCompatActivity() {
             override fun onPermissionsChecked(report: MultiplePermissionsReport?){
                 if (report!!.areAllPermissionsGranted()){
                     val photoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    startActivity(photoIntent)
+                    Log.d("AAA","AAAAA")
+                   startActivityForResult(photoIntent,REQUEST_IMAGE_CAPTURE )
                 }
             }
 
@@ -92,10 +99,17 @@ class PhotoActivity : AppCompatActivity() {
                         e.printStackTrace()
                     }
                 }
-                .setNegativeButton("Cancel") { dialog,
-                                               _ ->
-                    dialog.dismiss()
+                .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss()
                 }.show()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.d("AAA","THIS $requestCode")
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE){
+            val extras = data!!.extras
+            val imageBitmap = extras!!.get("data") as Bitmap
+            ivImage.setImageBitmap(imageBitmap)
+        }
+    }
 }
