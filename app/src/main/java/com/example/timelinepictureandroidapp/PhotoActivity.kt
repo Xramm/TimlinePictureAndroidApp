@@ -2,7 +2,9 @@ package com.example.timelinepictureandroidapp
 
 import android.Manifest
 import android.app.Activity
+import android.app.Application
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -17,7 +19,9 @@ import android.provider.Settings
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import com.example.timelinepictureandroidapp.db.PlaceDB
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -31,6 +35,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import kotlinx.android.synthetic.main.activity_photo.*
 
 class PhotoActivity : AppCompatActivity() {
+
     private val LOCATION_PERMISSION_REQUEST = 1
     private  val REQUEST_IMAGE_CAPTURE = 99
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -40,6 +45,7 @@ class PhotoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_photo)
+
 
         if((Build.VERSION.SDK_INT >=23 && ContextCompat.checkSelfPermission(
                 this, android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -105,7 +111,7 @@ class PhotoActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d("AAA","THIS $requestCode")
+
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE){
             val extras = data!!.extras
             val imageBitmap = extras!!.get("data") as Bitmap
