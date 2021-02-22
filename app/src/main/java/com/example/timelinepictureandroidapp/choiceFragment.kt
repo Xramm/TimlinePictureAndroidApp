@@ -2,11 +2,8 @@ package com.example.timelinepictureandroidapp
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
 import android.location.Location
-import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
@@ -14,22 +11,21 @@ import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import com.example.timelinepictureandroidapp.db.PlaceDB
-import com.example.timelinepictureandroidapp.db.PlaceDB.Companion.get
 import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.fragment_choice.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.internal.artificialFrame
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class choiceFragment : Fragment(R.layout.fragment_choice) {
 
+    private  lateinit var places : List<Place>
     private val db by lazy { PlaceDB.get(requireContext()) }
+   // private val places: List<Place> = PlaceDB.get(requireActivity().getApplication()).placeDao().getAll()
     private var mLatitude: Double = 0.0 // A variable which will hold the latitude value.
     private var mLongitude: Double = 0.0 // A variable which will hold the longitude value.
     private lateinit var mFusedLocationClient: FusedLocationProviderClient // A fused location client variable which is further user to get the user's current location
@@ -39,6 +35,13 @@ class choiceFragment : Fragment(R.layout.fragment_choice) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        GlobalScope.launch (Dispatchers.IO){
+          places = db.placeDao().getAll()
+            withContext(Dispatchers.Main){
+            Log.e("AAA","AA $places")
+        }}
+
+
 
         if((Build.VERSION.SDK_INT >=23 && ContextCompat.checkSelfPermission(
                         requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
