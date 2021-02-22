@@ -61,14 +61,14 @@ class PhotoFragment : Fragment(R.layout.fragment_photo), TextureView.SurfaceText
 
     private fun createUri(){
     photoURI = FileProvider.getUriForFile(requireContext(),
-        "com.example.cameratest.fileprovider",
+        "com.example.timelinepictureandroidapp.fileprovider",
         imageFile!!)
 }
 
 
     fun takephoto(){
     val myIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-    if (activity?.let { myIntent.resolveActivity(it.packageManager) } != null) {
+    if ( myIntent.resolveActivity(requireActivity().packageManager) != null) {
         myIntent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
         myIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
         startActivityForResult(myIntent, REQUEST_IMAGE_CAPTURE)

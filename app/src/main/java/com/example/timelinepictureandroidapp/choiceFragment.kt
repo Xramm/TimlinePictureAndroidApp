@@ -16,6 +16,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.example.timelinepictureandroidapp.db.PlaceDB
 import com.example.timelinepictureandroidapp.db.PlaceDB.Companion.get
 import com.google.android.gms.location.*
@@ -50,7 +52,13 @@ class choiceFragment : Fragment(R.layout.fragment_choice) {
         take_photo_button.setOnClickListener {
             GlobalScope.launch {
                 val id = db.placeDao().insert(Place(0,null,null,mLatitude,mLongitude))
-                fragmentManager?.popBackStack()
+                val transaction = activity?.supportFragmentManager?.beginTransaction()
+                if (transaction != null) {
+                    transaction.replace(R.id.fcView, PhotoFragment())
+
+                    transaction.disallowAddToBackStack()
+                    transaction.commit()
+                }
             }
         }
         }

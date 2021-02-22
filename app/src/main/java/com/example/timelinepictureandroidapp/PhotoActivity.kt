@@ -18,6 +18,7 @@ import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.location.*
@@ -34,23 +35,24 @@ import kotlinx.android.synthetic.main.activity_photo.*
 
 class PhotoActivity : AppCompatActivity() {
     lateinit var fragment1: choiceFragment
-    lateinit var fTransaction: FragmentTransaction
-    lateinit var fManager: FragmentManager
+
     val REQUEST_IMAGE_CAPTURE = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_photo)
         fragment1 = choiceFragment()
-        fManager =supportFragmentManager
-        fTransaction = fManager.beginTransaction()
-        fTransaction.add(R.id.fcView,fragment1).addToBackStack(null)
-        fTransaction.commit()
+       loadFragment(fragment1)
 
 
         }
 
-
+    private fun loadFragment(fragment: Fragment){
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fcView, fragment)
+        transaction.disallowAddToBackStack()
+        transaction.commit()
+    }
 
 
 
