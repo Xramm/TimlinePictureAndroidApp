@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        btnPhoto.setOnClickListener {
+        main_screen_take_photo_button.setOnClickListener {
             val intent = Intent(this,PhotoActivity::class.java)
             startActivity(intent)
         }

@@ -9,10 +9,10 @@ import java.net.URI
 data class Place(
     @PrimaryKey(autoGenerate = true)
     val placeId: Long,
-    val name: String,
-    val info: Long,
-    val latitude: Long,
-    val longitude: Long,
+    val name: String?,
+    val info: String?,
+    val latitude: Double,
+    val longitude: Double,
 )
 
 

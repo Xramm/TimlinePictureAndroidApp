@@ -3,17 +3,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnPhoto"
+    <Button
+        android:id="@+id/main_screen_take_photo_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="354dp"
-        android:text="@string/app_photo"
+        android:drawableTop="@android:drawable/ic_menu_camera"
+        app:layout_constraintBottom_toTopOf="@+id/main_screen_view_map_button"
+        app:layout_constraintEnd_toStartOf="@+id/main_screen_view_photos_button"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/take_photo_string" />
 
+    <Button
+        android:id="@+id/main_screen_view_photos_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@android:drawable/ic_menu_gallery"
+        app:layout_constraintBottom_toTopOf="@+id/main_screen_view_map_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/main_screen_take_photo_button"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/view_photos_string" />
+
+    <Button
+        android:id="@+id/main_screen_view_map_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableTop="@android:drawable/ic_dialog_map"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/main_screen_view_photos_button"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/main_screen_take_photo_button"
+        app:layout_constraintTop_toBottomOf="@+id/main_screen_take_photo_button"
+        tools:text="@string/view_map_string" />
 </androidx.constraintlayout.widget.ConstraintLayout>
