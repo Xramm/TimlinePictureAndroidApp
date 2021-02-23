@@ -1,3 +1,4 @@
+
 package com.example.timelinepictureandroidapp
 
 import android.app.Activity
@@ -53,28 +54,28 @@ class PhotoFragment : Fragment(R.layout.fragment_photo), TextureView.SurfaceText
     }
 
     private fun createFile(){
-    val fileName = "temp_photo"
-    val imgPath = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-    imageFile = File.createTempFile(fileName, ".jpg", imgPath )
-    mCurrentPhotoPath = imageFile!!.absolutePath
-}
+        val fileName = "temp_photo"
+        val imgPath = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        imageFile = File.createTempFile(fileName, ".jpg", imgPath )
+        mCurrentPhotoPath = imageFile!!.absolutePath
+    }
 
     private fun createUri(){
-    photoURI = FileProvider.getUriForFile(requireContext(),
-        "com.example.timelinepictureandroidapp.fileprovider",
-        imageFile!!)
-}
+        photoURI = FileProvider.getUriForFile(requireContext(),
+            "com.example.timelinepictureandroidapp.fileprovider",
+            imageFile!!)
+    }
 
 
     fun takephoto(){
-    val myIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-    if ( myIntent.resolveActivity(requireActivity().packageManager) != null) {
-        myIntent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-        myIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-        startActivityForResult(myIntent, REQUEST_IMAGE_CAPTURE)
-    }
+        val myIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if ( myIntent.resolveActivity(requireActivity().packageManager) != null) {
+            myIntent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            myIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+            startActivityForResult(myIntent, REQUEST_IMAGE_CAPTURE)
+        }
 
-}
+    }
 
 
 
@@ -83,8 +84,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo), TextureView.SurfaceText
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             val imageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath) // imageFile.absolutePath
             ivImage.setImageBitmap(imageBitmap)
+        }
     }
 }
-}
-
 

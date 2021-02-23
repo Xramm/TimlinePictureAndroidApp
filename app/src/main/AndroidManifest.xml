@@ -22,8 +22,7 @@
     <uses-feature android:name="ACCESS_COARSE_LOCATION" />
     <uses-feature android:name="WRITE_EXTERNAL_STORAGE" />
     <uses-feature
-        android:name="android.hardware.CAMERA"
-        android:required="true" />
+        android:name="android.hardware.CAMERA.any" />
 
     <application
         android:allowBackup="true"

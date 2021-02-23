@@ -30,7 +30,7 @@ class choiceFragment : Fragment(R.layout.fragment_choice) {
     private var mLongitude: Double = 0.0 // A variable which will hold the longitude value.
     private lateinit var mFusedLocationClient: FusedLocationProviderClient // A fused location client variable which is further user to get the user's current location
     private val LOCATION_PERMISSION_REQUEST = 1
-
+    val dataInDB = DataInDB()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,16 +53,14 @@ class choiceFragment : Fragment(R.layout.fragment_choice) {
         fetchLocation()
 
         take_photo_button.setOnClickListener {
-            GlobalScope.launch {
-                val id = db.placeDao().insert(Place(0,null,null,mLatitude,mLongitude))
-                val transaction = activity?.supportFragmentManager?.beginTransaction()
-                if (transaction != null) {
-                    transaction.replace(R.id.fcView, PhotoFragment())
+            dataInDB.latitude=mLatitude
+            dataInDB.longitude=mLongitude
+               nextFrag()
+        }
 
-                    transaction.disallowAddToBackStack()
-                    transaction.commit()
-                }
-            }
+        take_photo_update_button.setOnClickListener {
+            Log.e("WTH","WHAT IS HAPPENING")
+            nextFrag()
         }
         }
 
@@ -74,6 +72,15 @@ class choiceFragment : Fragment(R.layout.fragment_choice) {
             requestNewLocationData()
         }else {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST)
+        }
+    }
+    private fun nextFrag(){
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        if (transaction != null) {
+            transaction.replace(R.id.fcView, PhotoFragment())
+
+            transaction.disallowAddToBackStack()
+            transaction.commit()
         }
     }
 
@@ -106,7 +113,14 @@ class choiceFragment : Fragment(R.layout.fragment_choice) {
                 Log.e("Current Latitude", "$mLatitude")
                 mLongitude = mLastLocation.longitude
                 Log.e("Current Longitude", "$mLongitude")
-
+                for (place in places){
+                    if ((mLatitude>=place.latitude-0.0005 && mLatitude <= place.latitude+0.0005)&&
+                            mLongitude>=place.longitude-0.0005 && mLongitude <= place.longitude+0.0005){
+                        dataInDB.picId = place.placeId
+                        take_photo_or_text.visibility = View.VISIBLE
+                        take_photo_update_button.visibility = View.VISIBLE
+                    }
+                }
 
         }
     }
