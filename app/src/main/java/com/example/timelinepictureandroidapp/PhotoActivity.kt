@@ -34,6 +34,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import kotlinx.android.synthetic.main.activity_photo.*
 
 class PhotoActivity : AppCompatActivity() {
+
     lateinit var fragment1: choiceFragment
 
     val REQUEST_IMAGE_CAPTURE = 0

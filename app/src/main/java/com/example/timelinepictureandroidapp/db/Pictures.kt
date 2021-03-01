@@ -14,8 +14,8 @@ import java.net.URI
         onDelete = ForeignKey.CASCADE))])
 data class Pictures(
         val picId: Long,
-        val thumpNail: String,
-        val pictureUri: String,
+        val thumpNail: Bitmap,
+        val pictureUri: Uri,
         val heading: String,
         val timeStamp: Long,
         @PrimaryKey

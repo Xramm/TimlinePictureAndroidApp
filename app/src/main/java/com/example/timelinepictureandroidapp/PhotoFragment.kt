@@ -41,6 +41,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
     var imageFile: File? = null
     lateinit var photoURI : Uri
     lateinit var  mCurrentPhotoPath : String
+    val mContext = requireContext()
 
     private var imageCapture: ImageCapture? = null
 
@@ -83,7 +84,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
         // Set up image capture listener, which is triggered after photo has
         // been taken
         imageCapture.takePicture(
-            outputOptions, ContextCompat.getMainExecutor(requireContext()), object : ImageCapture.OnImageSavedCallback {
+            outputOptions, ContextCompat.getMainExecutor(mContext), object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
                     Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
                 }
@@ -91,14 +92,14 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
                     val msg = "Photo capture succeeded: $savedUri"
-                    Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
                 }
             })
     }
 
     private fun startCamera() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(mContext)
 
         cameraProviderFuture.addListener(Runnable {
             // Used to bind the lifecycle of cameras to the lifecycle owner
@@ -128,19 +129,19 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
                 Log.e(TAG, "Use case binding failed", exc)
             }
 
-        }, ContextCompat.getMainExecutor(requireContext()))
+        }, ContextCompat.getMainExecutor(mContext))
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
-            requireContext(), it) == PackageManager.PERMISSION_GRANTED
+            mContext, it) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun getOutputDirectory(): File {
         val mediaDir = requireActivity().externalMediaDirs.firstOrNull()?.let {
             File(it, resources.getString(R.string.app_name)).apply { mkdirs() } }
         return if (mediaDir != null && mediaDir.exists())
-            mediaDir else requireContext().filesDir
+            mediaDir else mContext.filesDir
     }
 
     override fun onRequestPermissionsResult(
@@ -152,7 +153,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
             if (allPermissionsGranted()) {
                 startCamera()
             }else{
-                Toast.makeText(requireContext(),
+                Toast.makeText(mContext,
                     "Permissions not granted by the user.",
                     Toast.LENGTH_SHORT).show()
               //  finish()
@@ -192,7 +193,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
     }
 
     private fun createUri(){
-        photoURI = FileProvider.getUriForFile(requireContext(),
+        photoURI = FileProvider.getUriForFile(mContext,
             "com.example.timelinepictureandroidapp.fileprovider",
             imageFile!!)
     }
