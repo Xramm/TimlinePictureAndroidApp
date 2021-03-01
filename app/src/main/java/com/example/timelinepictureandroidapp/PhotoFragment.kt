@@ -41,7 +41,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
     var imageFile: File? = null
     lateinit var photoURI : Uri
     lateinit var  mCurrentPhotoPath : String
-    val mContext = requireContext()
+
 
     private var imageCapture: ImageCapture? = null
 
@@ -84,7 +84,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
         // Set up image capture listener, which is triggered after photo has
         // been taken
         imageCapture.takePicture(
-            outputOptions, ContextCompat.getMainExecutor(mContext), object : ImageCapture.OnImageSavedCallback {
+            outputOptions, ContextCompat.getMainExecutor(requireContext()), object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
                     Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
                 }
@@ -92,14 +92,14 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
                     val msg = "Photo capture succeeded: $savedUri"
-                    Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
                 }
             })
     }
 
     private fun startCamera() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(mContext)
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
 
         cameraProviderFuture.addListener(Runnable {
             // Used to bind the lifecycle of cameras to the lifecycle owner
@@ -123,25 +123,25 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
 
                 // Bind use cases to camera
                 cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview,imageCapture)
+                    requireActivity(), cameraSelector, preview,imageCapture)
 
             } catch(exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
             }
 
-        }, ContextCompat.getMainExecutor(mContext))
+        }, ContextCompat.getMainExecutor(requireContext()))
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
-            mContext, it) == PackageManager.PERMISSION_GRANTED
+            requireContext(), it) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun getOutputDirectory(): File {
         val mediaDir = requireActivity().externalMediaDirs.firstOrNull()?.let {
             File(it, resources.getString(R.string.app_name)).apply { mkdirs() } }
         return if (mediaDir != null && mediaDir.exists())
-            mediaDir else mContext.filesDir
+            mediaDir else requireContext().filesDir
     }
 
     override fun onRequestPermissionsResult(
@@ -153,7 +153,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
             if (allPermissionsGranted()) {
                 startCamera()
             }else{
-                Toast.makeText(mContext,
+                Toast.makeText(requireContext(),
                     "Permissions not granted by the user.",
                     Toast.LENGTH_SHORT).show()
               //  finish()
@@ -193,7 +193,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
     }
 
     private fun createUri(){
-        photoURI = FileProvider.getUriForFile(mContext,
+        photoURI = FileProvider.getUriForFile(requireContext(),
             "com.example.timelinepictureandroidapp.fileprovider",
             imageFile!!)
     }
