@@ -30,6 +30,8 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_photo.*
 import kotlinx.android.synthetic.main.photo_info_edit_layout.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.File
 import java.util.*
 import java.util.concurrent.ExecutorService
@@ -117,37 +119,39 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
     }
 
     private fun startCamera() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(safeContext)
 
-        cameraProviderFuture.addListener(Runnable {
-            // Used to bind the lifecycle of cameras to the lifecycle owner
-            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+            val cameraProviderFuture = ProcessCameraProvider.getInstance(safeContext)
 
-            // Preview
-            val preview = Preview.Builder()
-                .build()
-                .also {
-                    it.setSurfaceProvider(viewFinder.surfaceProvider)
+            cameraProviderFuture.addListener(Runnable {
+                // Used to bind the lifecycle of cameras to the lifecycle owner
+                val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+
+                // Preview
+                val preview = Preview.Builder()
+                        .build()
+                        .also {
+                            it.setSurfaceProvider(viewFinder.surfaceProvider)
+                        }
+
+                imageCapture = ImageCapture.Builder()
+                        .build()
+                // Select back camera as a default
+                val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+                try {
+                    // Unbind use cases before rebinding
+                    cameraProvider.unbindAll()
+
+                    // Bind use cases to camera
+                    cameraProvider.bindToLifecycle(
+                            requireActivity(), cameraSelector, preview, imageCapture)
+
+                } catch (exc: Exception) {
+                    Log.e(TAG, "Use case binding failed", exc)
                 }
 
-            imageCapture = ImageCapture.Builder()
-                .build()
-            // Select back camera as a default
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+            }, ContextCompat.getMainExecutor(safeContext))
 
-            try {
-                // Unbind use cases before rebinding
-                cameraProvider.unbindAll()
-
-                // Bind use cases to camera
-                cameraProvider.bindToLifecycle(
-                    requireActivity(), cameraSelector, preview,imageCapture)
-
-            } catch(exc: Exception) {
-                Log.e(TAG, "Use case binding failed", exc)
-            }
-
-        }, ContextCompat.getMainExecutor(safeContext))
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
