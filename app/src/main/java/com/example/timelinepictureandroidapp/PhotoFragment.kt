@@ -3,6 +3,7 @@ package com.example.timelinepictureandroidapp
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
@@ -28,6 +29,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_photo.*
+import kotlinx.android.synthetic.main.photo_info_edit_layout.*
 import java.io.File
 import java.util.*
 import java.util.concurrent.ExecutorService
@@ -41,12 +43,17 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
     var imageFile: File? = null
     lateinit var photoURI : Uri
     lateinit var  mCurrentPhotoPath : String
-
-
+    private lateinit var safeContext : Context
     private var imageCapture: ImageCapture? = null
 
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        safeContext = context
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -84,22 +91,33 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
         // Set up image capture listener, which is triggered after photo has
         // been taken
         imageCapture.takePicture(
-            outputOptions, ContextCompat.getMainExecutor(requireContext()), object : ImageCapture.OnImageSavedCallback {
+            outputOptions, ContextCompat.getMainExecutor(safeContext), object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
                     Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+
+                        val transaction = activity?.supportFragmentManager?.beginTransaction()
+                        if (transaction != null) {
+                            transaction.replace(R.id.fcView, PhotoInfoEdit())
+
+                           // transaction.disallowAddToBackStack()
+                            transaction.commit()
+                        }
+
                     val savedUri = Uri.fromFile(photoFile)
+                    DataInDB.pictureUri = savedUri
+
                     val msg = "Photo capture succeeded: $savedUri"
-                    Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
                 }
             })
     }
 
     private fun startCamera() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(safeContext)
 
         cameraProviderFuture.addListener(Runnable {
             // Used to bind the lifecycle of cameras to the lifecycle owner
@@ -129,19 +147,19 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
                 Log.e(TAG, "Use case binding failed", exc)
             }
 
-        }, ContextCompat.getMainExecutor(requireContext()))
+        }, ContextCompat.getMainExecutor(safeContext))
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
-            requireContext(), it) == PackageManager.PERMISSION_GRANTED
+            safeContext, it) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun getOutputDirectory(): File {
         val mediaDir = requireActivity().externalMediaDirs.firstOrNull()?.let {
             File(it, resources.getString(R.string.app_name)).apply { mkdirs() } }
         return if (mediaDir != null && mediaDir.exists())
-            mediaDir else requireContext().filesDir
+            mediaDir else safeContext.filesDir
     }
 
     override fun onRequestPermissionsResult(
@@ -153,7 +171,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
             if (allPermissionsGranted()) {
                 startCamera()
             }else{
-                Toast.makeText(requireContext(),
+                Toast.makeText(safeContext,
                     "Permissions not granted by the user.",
                     Toast.LENGTH_SHORT).show()
               //  finish()
@@ -183,7 +201,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
 
             takephoto()
         }
-    }*/
+    }
 
     private fun createFile(){
         val fileName = "temp_photo"
@@ -193,7 +211,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
     }
 
     private fun createUri(){
-        photoURI = FileProvider.getUriForFile(requireContext(),
+        photoURI = FileProvider.getUriForFile(safeContext,
             "com.example.timelinepictureandroidapp.fileprovider",
             imageFile!!)
     }
@@ -217,6 +235,6 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
             val imageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath) // imageFile.absolutePath
           //  ivImage.setImageBitmap(imageBitmap)
         }
-    }
+    }*/
 }
 

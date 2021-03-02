@@ -30,7 +30,7 @@ class choiceFragment : Fragment(R.layout.fragment_choice) {
     private var mLongitude: Double = 0.0 // A variable which will hold the longitude value.
     private lateinit var mFusedLocationClient: FusedLocationProviderClient // A fused location client variable which is further user to get the user's current location
     private val LOCATION_PERMISSION_REQUEST = 1
-    val dataInDB = DataInDB()
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,8 +53,8 @@ class choiceFragment : Fragment(R.layout.fragment_choice) {
         fetchLocation()
 
         take_photo_button.setOnClickListener {
-            dataInDB.latitude=mLatitude
-            dataInDB.longitude=mLongitude
+            DataInDB.latitude=mLatitude
+            DataInDB.longitude=mLongitude
                nextFrag()
         }
 
@@ -116,7 +116,7 @@ class choiceFragment : Fragment(R.layout.fragment_choice) {
                 for (place in places){
                     if ((mLatitude>=place.latitude-0.0005 && mLatitude <= place.latitude+0.0005)&&
                             mLongitude>=place.longitude-0.0005 && mLongitude <= place.longitude+0.0005){
-                        dataInDB.picId = place.placeId
+                        DataInDB.picId = place.placeId
                         take_photo_or_text.visibility = View.VISIBLE
                         take_photo_update_button.visibility = View.VISIBLE
                     }
