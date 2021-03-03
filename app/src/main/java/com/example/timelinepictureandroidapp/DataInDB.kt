@@ -15,6 +15,7 @@ import android.util.Log
 import com.example.timelinepictureandroidapp.db.Pictures
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.time.LocalDateTime
 
 object DataInDB: Application() {
 
@@ -31,7 +32,7 @@ object DataInDB: Application() {
     lateinit var thumpNail: Bitmap
     lateinit var pictureUri: Uri
     var heading: String = ""
-    var timeStamp: Long = 0
+    var timeStamp: LocalDateTime? = null
 
     override fun onCreate() {
         super.onCreate()

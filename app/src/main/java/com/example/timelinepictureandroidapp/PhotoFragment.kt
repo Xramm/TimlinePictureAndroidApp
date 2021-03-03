@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.graphics.SurfaceTexture
 import android.icu.text.SimpleDateFormat
+import android.media.ThumbnailUtils
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -100,6 +101,16 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
 
+                    val savedUri = Uri.fromFile(photoFile)
+                        val bitmap = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(photoFile.absolutePath),300,300)
+                        DataInDB.thumpNail = bitmap
+                    DataInDB.pictureUri = savedUri
+
+                    val msg = "Photo capture succeeded: $savedUri"
+                    Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, msg)
+                    Log.e("qwe","$bitmap")
+
                         val transaction = activity?.supportFragmentManager?.beginTransaction()
                         if (transaction != null) {
                             transaction.replace(R.id.fcView, PhotoInfoEdit())
@@ -108,12 +119,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
                             transaction.commit()
                         }
 
-                    val savedUri = Uri.fromFile(photoFile)
-                    DataInDB.pictureUri = savedUri
 
-                    val msg = "Photo capture succeeded: $savedUri"
-                    Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, msg)
                 }
             })
     }

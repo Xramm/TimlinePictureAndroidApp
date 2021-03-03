@@ -7,6 +7,7 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.example.timelinepictureandroidapp.Place
 import java.net.URI
+import java.time.LocalDateTime
 
 @Entity(foreignKeys = [(ForeignKey(entity = Place::class,
         parentColumns = ["placeId"],
@@ -17,7 +18,7 @@ data class Pictures(
         val thumpNail: Bitmap,
         val pictureUri: Uri,
         val heading: String,
-        val timeStamp: Long,
+        val timeStamp: LocalDateTime?,
         @PrimaryKey
         val name: String,
 )

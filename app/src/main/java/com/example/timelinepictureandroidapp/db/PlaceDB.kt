@@ -11,7 +11,7 @@ import com.example.timelinepictureandroidapp.Place
 import com.example.timelinepictureandroidapp.PlaceDao
 
 
-@Database(entities = [(Place::class),(Pictures::class)],version = 2)
+@Database(entities = [(Place::class),(Pictures::class)],version = 3)
 @TypeConverters(Converters::class)
 abstract class PlaceDB: RoomDatabase(){
     abstract fun placeDao(): PlaceDao
@@ -23,7 +23,7 @@ abstract class PlaceDB: RoomDatabase(){
         fun get(context: Context): PlaceDB {
             if (sInstance == null){
                 sInstance = Room.databaseBuilder(context.applicationContext,
-                PlaceDB::class.java, "places.db").build()
+                PlaceDB::class.java, "places.db").fallbackToDestructiveMigration().build()
             }
             return sInstance!!
         }
