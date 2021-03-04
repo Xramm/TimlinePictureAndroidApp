@@ -38,8 +38,10 @@ class PhotoInfoEdit : Fragment(R.layout.fragment_photo_info_edit) {
             Log.e("qwe","8 ${DataInDB.placeId}")
             Log.e("qwe","9 ${DataInDB.thumpNail}")
             Log.e("qwe","10 ${DataInDB.timeStamp}")
-
-          //  DataInDB.setplace()
+            if (DataInDB.picId == null){
+            DataInDB.setplace()}else{
+                DataInDB.setpicture()
+            }
             val intent = Intent(requireContext(),MainActivity::class.java)
             startActivity(intent)
         }

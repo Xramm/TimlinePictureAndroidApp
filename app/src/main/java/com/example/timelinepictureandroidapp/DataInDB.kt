@@ -20,7 +20,7 @@ import java.time.LocalDateTime
 object DataInDB: Application() {
 
 
-    private val db by lazy { PlaceDB.get(context = baseContext) }
+    private val db by lazy { PlaceDB.get(this) }
 
 
     var placeId: Long =0
@@ -36,6 +36,8 @@ object DataInDB: Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        val db = PlaceDB.get(applicationContext)
     }
 
      fun setplace() {
@@ -47,9 +49,12 @@ object DataInDB: Application() {
              }
          }
      }
-     fun setpicture(id: Int) {
+     fun setpicture() {
          GlobalScope.launch {
              val ids = db.picturesDao().insert(Pictures(picId!!,thumpNail, pictureUri, heading, timeStamp, name))
+             withContext(Dispatchers.Main){
+                 Log.e("AAA","SAVED picture")
+             }
          }
      }
 }

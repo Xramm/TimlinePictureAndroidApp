@@ -25,6 +25,7 @@ interface PicturesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(place: Pictures): Long
 
+
     @Delete
     fun delete(place: Pictures)
 

@@ -17,7 +17,7 @@ data class Pictures(
         val picId: Long,
         val thumpNail: Bitmap,
         val pictureUri: Uri,
-        val heading: String,
+        val heading: String?,
         val timeStamp: LocalDateTime?,
         @PrimaryKey
         val name: String,

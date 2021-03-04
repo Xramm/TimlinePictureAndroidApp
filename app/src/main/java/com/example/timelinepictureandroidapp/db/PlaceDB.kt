@@ -11,7 +11,7 @@ import com.example.timelinepictureandroidapp.Place
 import com.example.timelinepictureandroidapp.PlaceDao
 
 
-@Database(entities = [(Place::class),(Pictures::class)],version = 3)
+@Database(entities = [(Place::class),(Pictures::class)],version = 4)
 @TypeConverters(Converters::class)
 abstract class PlaceDB: RoomDatabase(){
     abstract fun placeDao(): PlaceDao
