@@ -22,8 +22,8 @@
             android:id="@+id/photo_info_edit_name_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
-            tools:text="@string/photo_info_edit_name_title" />
+            android:text="@string/photo_info_edit_name_title"
+            android:textSize="30sp" />
 
         <EditText
             android:id="@+id/photo_info_edit_edit_name"
@@ -52,8 +52,8 @@
             android:id="@+id/photo_info_edit_name_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
-            tools:text="@string/photo_info_edit_info_title" />
+            android:text="@string/photo_info_edit_info_title"
+            android:textSize="30sp" />
 
         <EditText
             android:id="@+id/photo_info_edit_edit_info"
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:layout_weight="1"
-            tools:text="@string/photo_info_edit_save_photo" />
+            android:text="@string/photo_info_edit_save_photo" />
 
 
         <Button
@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_weight="1"
-            tools:text="@string/photo_info_edit_retake_photo" />
+            android:text="@string/photo_info_edit_retake_photo" />
     </LinearLayout>
 
     <ImageView
