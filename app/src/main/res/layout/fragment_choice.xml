@@ -20,25 +20,25 @@
         android:id="@+id/take_photo_or_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/or_string"
         android:textSize="30sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/take_photo_update_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/take_photo_button"
-        tools:text="@string/or_string"
-        android:visibility="gone"/>
+        app:layout_constraintTop_toBottomOf="@+id/take_photo_button" />
 
     <Button
         android:id="@+id/take_photo_update_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/update_this_string"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/take_photo_or_text"
-        tools:text="@string/update_this_string"
-        android:visibility="gone"/>
+        app:layout_constraintTop_toBottomOf="@+id/take_photo_or_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
