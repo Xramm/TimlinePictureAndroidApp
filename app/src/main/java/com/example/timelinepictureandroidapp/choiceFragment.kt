@@ -116,6 +116,9 @@ class choiceFragment : Fragment(R.layout.fragment_choice) {
                 for (place in places){
                     if ((mLatitude>=place.latitude-0.0005 && mLatitude <= place.latitude+0.0005)&&
                             mLongitude>=place.longitude-0.0005 && mLongitude <= place.longitude+0.0005){
+                                GlobalScope.launch(Dispatchers.IO) {
+                                    DataInDB.tempPhoto = db.placeDao().getPlaceWithPictures(place.placeId)
+                                }
                         DataInDB.picId = place.placeId
                         DataInDB.latitude = place.latitude
                         DataInDB.longitude = place.longitude

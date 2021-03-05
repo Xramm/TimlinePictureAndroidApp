@@ -13,6 +13,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import com.example.timelinepictureandroidapp.db.Pictures
+import com.example.timelinepictureandroidapp.db.PlaceWithPictures
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
@@ -33,6 +34,7 @@ object DataInDB: Application() {
     lateinit var pictureUri: Uri
     var heading: String = ""
     var timeStamp: LocalDateTime? = null
+    var tempPhoto: PlaceWithPictures? = null
 
     override fun onCreate() {
         super.onCreate()

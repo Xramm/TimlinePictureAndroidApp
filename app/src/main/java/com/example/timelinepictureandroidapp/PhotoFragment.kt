@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
 import android.graphics.SurfaceTexture
 import android.icu.text.SimpleDateFormat
 import android.media.ThumbnailUtils
@@ -31,8 +32,10 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_photo.*
 import kotlinx.android.synthetic.main.photo_info_edit_layout.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.*
 import java.util.concurrent.ExecutorService
@@ -127,6 +130,16 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
     private fun startCamera() {
 
             val cameraProviderFuture = ProcessCameraProvider.getInstance(safeContext)
+            if (DataInDB.tempPhoto != null) {
+                GlobalScope.launch(Dispatchers.IO) {
+                    val temp = DataInDB.tempPhoto!!.pictures?.get(0)?.thumpNail
+                    withContext(Dispatchers.Main) {
+                        ivGhost.setImageBitmap(temp)
+                        ivGhost.setAlpha(99)
+                        Log.e("ADS","asdad $temp")
+                    }
+                }
+            }
 
             cameraProviderFuture.addListener(Runnable {
                 // Used to bind the lifecycle of cameras to the lifecycle owner
