@@ -2,11 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.timelinepictureandroidapp">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.location.gps" />
     <uses-feature android:name="android.hardware.location.network" />
 
@@ -15,14 +13,13 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <uses-feature android:name="ACCESS_COARSE_LOCATION" />
     <uses-feature android:name="WRITE_EXTERNAL_STORAGE" />
-    <uses-feature
-        android:name="android.hardware.CAMERA.any" />
+    <uses-feature android:name="android.hardware.CAMERA.any" />
 
     <application
         android:allowBackup="true"
@@ -31,7 +28,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TimelinePictureAndroidApp">
-        <activity android:name=".PhotoActivity"></activity>
+        <activity android:name=".MapActivity">
+
+        </activity>
+        <activity android:name=".PhotoActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -41,9 +41,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-            <meta-data
-                android:name="com.google.android.geo.API_KEY"
-                android:value="" />
+
         </provider>
 
         <activity android:name=".MainActivity">
@@ -53,6 +51,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAZagM7yujM8HXR-0GLLKqNfLxTLDfmDLA" />
     </application>
 
 </manifest>
