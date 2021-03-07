@@ -24,8 +24,8 @@ class PhotoInfoEdit : Fragment(R.layout.fragment_photo_info_edit) {
 
         imView.setImageBitmap(DataInDB.thumpNail)
         photo_info_edit_save_button.setOnClickListener {
-            DataInDB.name = photo_info_edit_edit_name.toString()
-            DataInDB.info = photo_info_edit_edit_info.toString()
+            DataInDB.name = photo_info_edit_edit_name.text.toString()
+            DataInDB.info = photo_info_edit_edit_info.text.toString()
             DataInDB.timeStamp = LocalDateTime.now()
             Log.e("qwe","1 ${DataInDB.info}")
             Log.e("qwe","2 ${DataInDB.name}")

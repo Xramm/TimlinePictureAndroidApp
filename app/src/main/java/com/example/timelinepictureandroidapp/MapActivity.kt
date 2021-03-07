@@ -36,7 +36,7 @@ class MapActivity : FragmentActivity(),OnMapReadyCallback {
                addMarker(
                        MarkerOptions()
                                .position(LatLng( place.latitude,place.longitude))
-                               .title(place.name)
+                               .title(place.name.toString())
 
                )
            }
