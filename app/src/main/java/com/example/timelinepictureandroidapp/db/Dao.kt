@@ -1,6 +1,6 @@
 package com.example.timelinepictureandroidapp
 
-import androidx.lifecycle.LiveData
+
 import androidx.room.*
 import com.example.timelinepictureandroidapp.db.Pictures
 import com.example.timelinepictureandroidapp.db.PlaceWithPictures

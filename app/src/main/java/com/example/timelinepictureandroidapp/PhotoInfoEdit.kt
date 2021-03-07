@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_photo_info_edit.*
-import kotlinx.android.synthetic.main.photo_info_edit_layout.*
 import kotlinx.android.synthetic.main.photo_info_edit_layout.photo_info_edit_edit_info
 import kotlinx.android.synthetic.main.photo_info_edit_layout.photo_info_edit_edit_name
 import kotlinx.android.synthetic.main.photo_info_edit_layout.photo_info_edit_retake_button

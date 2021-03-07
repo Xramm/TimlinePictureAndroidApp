@@ -2,19 +2,15 @@ package com.example.timelinepictureandroidapp
 
 
 import android.app.Application
-import androidx.appcompat.app.AppCompatActivity
-
-import com.example.timelinepictureandroidapp.db.PlaceDB
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import androidx.core.content.ContextCompat
-import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import com.example.timelinepictureandroidapp.db.Pictures
+import com.example.timelinepictureandroidapp.db.PlaceDB
 import com.example.timelinepictureandroidapp.db.PlaceWithPictures
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 

@@ -1,9 +1,7 @@
 package com.example.timelinepictureandroidapp
 
-import android.graphics.Bitmap
-import androidx.room.*
-import androidx.room.ForeignKey.CASCADE
-import java.net.URI
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity
 data class Place(
