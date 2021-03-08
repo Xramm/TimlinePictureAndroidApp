@@ -1,5 +1,6 @@
 package com.example.timelinepictureandroidapp
 
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.FragmentActivity
@@ -54,4 +55,6 @@ class MapActivity : FragmentActivity(),OnMapReadyCallback {
        }
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng((maxLat+minLat)/2,(maxLong+minLong)/2),5f))
     }
+
+
 }
