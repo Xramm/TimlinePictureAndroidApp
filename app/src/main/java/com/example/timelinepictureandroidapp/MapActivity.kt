@@ -33,21 +33,21 @@ class MapActivity : FragmentActivity(),OnMapReadyCallback {
 
     override fun onMapReady(p0: GoogleMap) {
         val latlngBuilder = LatLngBounds.Builder()
+        if (places.isNotEmpty()) {
+            map = p0.apply {
+                for (place in places) {
+                    latlngBuilder.include(LatLng(place.latitude, place.longitude))
 
-       map = p0.apply {
-           for (place in places) {
-               latlngBuilder.include(LatLng(place.latitude,place.longitude))
+                    addMarker(
+                            MarkerOptions()
+                                    .position(LatLng(place.latitude, place.longitude))
+                                    .title(place.name.toString())
+                                    .snippet(place.info.toString())
 
-               addMarker(
-                       MarkerOptions()
-                               .position(LatLng(place.latitude, place.longitude))
-                               .title(place.name.toString())
-                               .snippet(place.info.toString())
-
-               )
-           }
-       }
-
+                    )
+                }
+            }
+        }
         map.animateCamera(CameraUpdateFactory.newLatLngBounds(latlngBuilder.build(),100))
     }
 

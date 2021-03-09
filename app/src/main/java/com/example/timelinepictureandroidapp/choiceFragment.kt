@@ -113,8 +113,8 @@ class choiceFragment : Fragment(R.layout.fragment_choice) {
                 mLongitude = mLastLocation.longitude
                 Log.e("Current Longitude", "$mLongitude")
                 for (place in places){
-                    if ((mLatitude>=place.latitude-0.0005 && mLatitude <= place.latitude+0.0005)&&
-                            mLongitude>=place.longitude-0.0005 && mLongitude <= place.longitude+0.0005){
+                    if ((mLatitude>=place.latitude-0.00005 && mLatitude <= place.latitude+0.00005)&&
+                            mLongitude>=place.longitude-0.00005 && mLongitude <= place.longitude+0.00005){
 
                         DataInDB.picId = place.placeId
                         DataInDB.latitude = place.latitude
