@@ -47,8 +47,9 @@ class MapActivity : FragmentActivity(),OnMapReadyCallback {
                     )
                 }
             }
-        }
+
         map.animateCamera(CameraUpdateFactory.newLatLngBounds(latlngBuilder.build(),100))
+        }
     }
 
 
