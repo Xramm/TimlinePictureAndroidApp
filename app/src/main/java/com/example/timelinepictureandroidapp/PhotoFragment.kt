@@ -63,6 +63,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
         } else {
             ActivityCompat.requestPermissions(
                     requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+            startCamera()
         }
 
         slider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
