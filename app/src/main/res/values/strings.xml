@@ -20,5 +20,9 @@
     <string name="photo_info_edit_retake_photo">Retake Picture</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="slider_desc">
+        <item>20</item>
+        <item>150</item>
+    </string-array>
 
 </resources>

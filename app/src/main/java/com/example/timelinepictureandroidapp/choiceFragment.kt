@@ -15,10 +15,7 @@ import androidx.fragment.app.Fragment
 import com.example.timelinepictureandroidapp.db.PlaceDB
 import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.fragment_choice.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 
 class choiceFragment : Fragment(R.layout.fragment_choice) {
@@ -59,7 +56,9 @@ class choiceFragment : Fragment(R.layout.fragment_choice) {
         }
 
         take_photo_update_button.setOnClickListener {
-            Log.e("WTH","WHAT IS HAPPENING")
+            GlobalScope.async (Dispatchers.IO) {
+                DataInDB.tempPhoto = db.placeDao().getPlaceWithPictures(DataInDB.picId!!)
+            }
             nextFrag()
         }
         }
@@ -116,9 +115,7 @@ class choiceFragment : Fragment(R.layout.fragment_choice) {
                 for (place in places){
                     if ((mLatitude>=place.latitude-0.0005 && mLatitude <= place.latitude+0.0005)&&
                             mLongitude>=place.longitude-0.0005 && mLongitude <= place.longitude+0.0005){
-                                GlobalScope.launch(Dispatchers.IO) {
-                                    DataInDB.tempPhoto = db.placeDao().getPlaceWithPictures(place.placeId)
-                                }
+
                         DataInDB.picId = place.placeId
                         DataInDB.latitude = place.latitude
                         DataInDB.longitude = place.longitude

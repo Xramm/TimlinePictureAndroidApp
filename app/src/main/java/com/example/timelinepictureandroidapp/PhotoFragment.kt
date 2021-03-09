@@ -11,6 +11,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.SeekBar
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -20,6 +21,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.material.slider.Slider
 import kotlinx.android.synthetic.main.fragment_photo.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -34,6 +36,7 @@ import java.util.concurrent.Executors
 class PhotoFragment : Fragment(R.layout.fragment_photo) {
 
 
+    var opaque = 100
     val REQUEST_IMAGE_CAPTURE = 99
     var imageFile: File? = null
     lateinit var photoURI : Uri
@@ -59,9 +62,17 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
             startCamera()
         } else {
             ActivityCompat.requestPermissions(
-                requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+                    requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
 
+        slider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                opaque = progress
+                ivGhost.setAlpha(opaque)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
         // Set up the listener for take photo button
         camera_capture_button.setOnClickListener { takePhoto() }
 
@@ -76,9 +87,9 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
 
         // Create time-stamped output file to hold the image
         val photoFile = File(
-            outputDirectory,
-            SimpleDateFormat(FILENAME_FORMAT, Locale.US
-            ).format(System.currentTimeMillis()) + ".jpg")
+                outputDirectory,
+                SimpleDateFormat(FILENAME_FORMAT, Locale.US
+                ).format(System.currentTimeMillis()) + ".jpg")
 
         // Create output options object which contains file + metadata
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
@@ -86,46 +97,48 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
         // Set up image capture listener, which is triggered after photo has
         // been taken
         imageCapture.takePicture(
-            outputOptions, ContextCompat.getMainExecutor(safeContext), object : ImageCapture.OnImageSavedCallback {
-                override fun onError(exc: ImageCaptureException) {
-                    Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
+                outputOptions, ContextCompat.getMainExecutor(safeContext), object : ImageCapture.OnImageSavedCallback {
+            override fun onError(exc: ImageCaptureException) {
+                Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
+            }
+
+            override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+
+                val savedUri = Uri.fromFile(photoFile)
+                val bitmap = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(photoFile.absolutePath), 300, 300)
+                DataInDB.thumpNail = bitmap
+                DataInDB.pictureUri = savedUri
+
+                val msg = "Photo capture succeeded: $savedUri"
+                Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
+                Log.d(TAG, msg)
+                Log.e("qwe", "$bitmap")
+
+                val transaction = activity?.supportFragmentManager?.beginTransaction()
+                if (transaction != null) {
+                    transaction.replace(R.id.fcView, PhotoInfoEdit())
+
+                    // transaction.disallowAddToBackStack()
+                    transaction.commit()
                 }
 
-                override fun onImageSaved(output: ImageCapture.OutputFileResults) {
 
-                    val savedUri = Uri.fromFile(photoFile)
-                        val bitmap = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(photoFile.absolutePath),300,300)
-                        DataInDB.thumpNail = bitmap
-                    DataInDB.pictureUri = savedUri
-
-                    val msg = "Photo capture succeeded: $savedUri"
-                    Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, msg)
-                    Log.e("qwe","$bitmap")
-
-                        val transaction = activity?.supportFragmentManager?.beginTransaction()
-                        if (transaction != null) {
-                            transaction.replace(R.id.fcView, PhotoInfoEdit())
-
-                           // transaction.disallowAddToBackStack()
-                            transaction.commit()
-                        }
-
-
-                }
-            })
+            }
+        })
     }
 
     private fun startCamera() {
 
             val cameraProviderFuture = ProcessCameraProvider.getInstance(safeContext)
+        // if tepmPhoto have picture do a ghost image
             if (DataInDB.tempPhoto != null) {
+                slider.visibility = View.VISIBLE
                 GlobalScope.launch(Dispatchers.IO) {
                     val temp = DataInDB.tempPhoto!!.pictures?.get(0)?.thumpNail
                     withContext(Dispatchers.Main) {
                         ivGhost.setImageBitmap(temp)
-                        ivGhost.setAlpha(99)
-                        Log.e("ADS","asdad $temp")
+
+                        Log.e("ADS", "opague $opaque")
                     }
                 }
             }
@@ -164,7 +177,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
-            safeContext, it) == PackageManager.PERMISSION_GRANTED
+                safeContext, it) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun getOutputDirectory(): File {
@@ -175,17 +188,17 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray
     ) {
         if (requestCode == REQUEST_CODE_PERMISSIONS){
             if (allPermissionsGranted()) {
                 startCamera()
             }else{
                 Toast.makeText(safeContext,
-                    "Permissions not granted by the user.",
-                    Toast.LENGTH_SHORT).show()
+                        "Permissions not granted by the user.",
+                        Toast.LENGTH_SHORT).show()
               //  finish()
             }
         }
@@ -204,49 +217,5 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
     }
 
 
-    /* override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        createFile()
-        createUri()
-        var mCurrentPhotoPath = imageFile!!.absolutePath
-      //  btnClick.setOnClickListener{
-
-            takephoto()
-        }
-    }
-
-    private fun createFile(){
-        val fileName = "temp_photo"
-        val imgPath = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        imageFile = File.createTempFile(fileName, ".jpg", imgPath )
-        mCurrentPhotoPath = imageFile!!.absolutePath
-    }
-
-    private fun createUri(){
-        photoURI = FileProvider.getUriForFile(safeContext,
-            "com.example.timelinepictureandroidapp.fileprovider",
-            imageFile!!)
-    }
-
-
-    fun takephoto(){
-        val myIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        if ( myIntent.resolveActivity(requireActivity().packageManager) != null) {
-            myIntent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-            myIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-            startActivityForResult(myIntent, REQUEST_IMAGE_CAPTURE)
-        }
-
-    }
-
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, recIntent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, recIntent)
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-            val imageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath) // imageFile.absolutePath
-          //  ivImage.setImageBitmap(imageBitmap)
-        }
-    }*/
 }
 

@@ -33,6 +33,7 @@ class PhotoInfoEdit : Fragment(R.layout.fragment_photo_info_edit) {
                 DataInDB.setpicture()
             }
             val intent = Intent(requireContext(),MainActivity::class.java)
+            DataInDB.tempPhoto = null
             startActivity(intent)
         }
         photo_info_edit_retake_button.setOnClickListener {
