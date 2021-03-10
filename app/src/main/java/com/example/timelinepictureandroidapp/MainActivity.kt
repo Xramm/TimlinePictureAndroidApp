@@ -22,5 +22,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this,MapActivity::class.java)
             startActivity(intent)
         }
+
+        main_screen_view_photos_button.setOnClickListener {
+            val intent = Intent(this,GalleryActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

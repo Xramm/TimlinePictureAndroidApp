@@ -37,10 +37,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
 
 
     var opaque = 100
-    val REQUEST_IMAGE_CAPTURE = 99
-    var imageFile: File? = null
-    lateinit var photoURI : Uri
-    lateinit var  mCurrentPhotoPath : String
+
     private lateinit var safeContext : Context
     private var imageCapture: ImageCapture? = null
 

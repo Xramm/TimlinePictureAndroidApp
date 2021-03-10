@@ -22,7 +22,6 @@ class choiceFragment : Fragment(R.layout.fragment_choice) {
 
     private  lateinit var places : List<Place>
     private val db by lazy { PlaceDB.get(requireContext()) }
-   // private val places: List<Place> = PlaceDB.get(requireActivity().getApplication()).placeDao().getAll()
     private var mLatitude: Double = 0.0 // A variable which will hold the latitude value.
     private var mLongitude: Double = 0.0 // A variable which will hold the longitude value.
     private lateinit var mFusedLocationClient: FusedLocationProviderClient // A fused location client variable which is further user to get the user's current location
