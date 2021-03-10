@@ -21,7 +21,6 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.google.android.material.slider.Slider
 import kotlinx.android.synthetic.main.fragment_photo.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

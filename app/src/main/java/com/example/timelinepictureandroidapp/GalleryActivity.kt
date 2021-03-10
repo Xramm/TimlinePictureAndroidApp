@@ -1,13 +1,8 @@
 package com.example.timelinepictureandroidapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import androidx.fragment.app.ListFragment
-import com.example.timelinepictureandroidapp.db.PlaceDB
-import kotlinx.coroutines.*
+import androidx.appcompat.app.AppCompatActivity
 
 class GalleryActivity : AppCompatActivity(),ListViewFragment.FirstFragmentListener {
 

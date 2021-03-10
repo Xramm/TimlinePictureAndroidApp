@@ -2,17 +2,16 @@ package com.example.timelinepictureandroidapp
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.timelinepictureandroidapp.db.PlaceDB
-import kotlinx.coroutines.*
-import javax.sql.DataSource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class ListAdapter(private val context: Context, private val dataSource: List<Place>): BaseAdapter() {
 

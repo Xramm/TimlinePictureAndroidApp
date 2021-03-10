@@ -1,6 +1,5 @@
 package com.example.timelinepictureandroidapp
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import com.example.timelinepictureandroidapp.db.PlaceDB
@@ -8,7 +7,9 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
