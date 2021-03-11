@@ -70,6 +70,7 @@ class choiceFragment : Fragment(R.layout.fragment_choice) {
             requestNewLocationData()
         }else {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST)
+            fetchLocation()
         }
     }
     private fun nextFrag(){
