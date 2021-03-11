@@ -1,16 +1,12 @@
 package com.example.timelinepictureandroidapp
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.example.timelinepictureandroidapp.db.Pictures
 import com.example.timelinepictureandroidapp.db.PlaceDB
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 
 class ShowFragment : Fragment(R.layout.fragment_show) {
 
