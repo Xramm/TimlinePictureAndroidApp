@@ -3,8 +3,14 @@ package com.example.timelinepictureandroidapp
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.example.timelinepictureandroidapp.db.PlaceDB
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class GalleryActivity : AppCompatActivity(),ListViewFragment.FirstFragmentListener {
+
+    private val db by lazy { PlaceDB.get(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -20,6 +26,11 @@ class GalleryActivity : AppCompatActivity(),ListViewFragment.FirstFragmentListen
     }
 
     override fun onButtonClick(position: Int) {
+
+        GlobalScope.launch(Dispatchers.IO) {
+            ShowFragment.showPictures = db.placeDao().getPlaceWithPictures(position.toLong() + 1).pictures
+        }
+
         val secondFragment = ShowFragment()
         Log.d("SHIT","WTF $position")
         val bundle = Bundle()
