@@ -46,7 +46,7 @@ class ListViewFragment : Fragment(R.layout.fragment_list_view) {
         listView.setOnItemClickListener { adapterView, view, i, l ->
 
             activityCallBack!!.onButtonClick(i)
-            Toast.makeText(requireContext(),"$places", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),"$i", Toast.LENGTH_SHORT).show()
         }}}
     }
 

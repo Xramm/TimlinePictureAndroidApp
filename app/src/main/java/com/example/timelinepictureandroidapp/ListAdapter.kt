@@ -34,7 +34,7 @@ class ListAdapter(private val context: Context, private val dataSource: List<Pla
     }
 
     override fun getItemId(position: Int): Long {
-        return position.toLong()
+        return  dataSource[position].placeId
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
