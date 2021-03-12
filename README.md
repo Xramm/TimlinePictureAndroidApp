@@ -10,6 +10,8 @@ Other feature is you can open included googlemaps and see where you have been ta
 
 Last feature is Viewing the photos.
 
+FullProgram is in master branch !!!!
+
 To use our application you need google api key
 and it is needed to insert to local.properties as 
 
