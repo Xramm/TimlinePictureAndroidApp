@@ -26,5 +26,5 @@ Our Application uses
 *Camera
 *CameraX
 *Google maps
-
+*ViewPager
 
